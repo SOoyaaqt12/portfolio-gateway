@@ -1,0 +1,508 @@
+/* Reset dasar dan pengaturan body */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #ffffff; /* Ubah warna background di sini */
+  color: #fff; /* Ubah warna teks utama di sini */
+}
+
+/* ===================== */
+/* Navbar Utama */
+/* ===================== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fafafa; /* Ubah warna background navbar di sini */
+  padding: 0px 40px; /* Atur padding navbar */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Efek bayangan navbar */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ===================== */
+/* Logo Navbar */
+/* ===================== */
+.logo img {
+  height: 100px; /* Atur tinggi logo */
+  width: auto;
+  transition: transform 0.2s; /* Efek transisi saat hover */
+}
+
+.logo img:hover {
+  transform: scale(1.08); /* Efek zoom saat hover */
+}
+
+/* ===================== */
+/* Menu Navigasi */
+/* ===================== */
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 32px; /* Jarak antar menu */
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #000000; /* Warna teks menu */
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 16px; /* Padding menu */
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s; /* Efek transisi hover */
+}
+
+.navbar ul li a:hover,
+.navbar ul li a:focus {
+  background: #3a3f47; /* Warna background saat hover */
+  color: #ffffff; /* Warna teks saat hover */
+}
+
+.navbar ul li a.active {
+  background: #3a3f47; /* Warna background aktif */
+  color: #ffffff; /* Warna teks aktif */
+}
+
+/* ===================== */
+/* Tombol GitHub */
+/* ===================== */
+.btn-github a {
+  background: linear-gradient(
+    90deg,
+    #00e1ff 0%,
+    #0077ff 100%
+  ); /* Gradient tombol */
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 225, 255, 0.08); /* Bayangan tombol */
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-github a:hover {
+  background: linear-gradient(
+    90deg,
+    #0077ff 0%,
+    #00e1ff 100%
+  ); /* Gradient saat hover */
+  transform: translateY(-2px) scale(1.05); /* Efek naik dan zoom */
+}
+
+/* ===================== */
+/* Section Hero */
+/* ===================== */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  background: transparent !important; /* Warna latar belakang section hero */
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 500px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2; /* Konten di atas efek Vanta */
+}
+
+.hero-text {
+  max-width: 600px;
+  margin-right: 40px;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.hero-text p {
+  font-size: 1.125rem;
+  margin-bottom: 50px;
+  color: #666;
+}
+
+.btn-primary {
+  background: #252627; /* Warna latar belakang tombol */
+  color: #fff; /* Warna teks tombol */
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: #000000; /* Warna latar belakang saat hover */
+  transform: translateY(-2px) scale(1.05); /* Efek naik dan zoom */
+}
+
+.hero-image {
+  flex-shrink: 0;
+}
+
+.hero-image img {
+  max-width: 350px;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(48, 48, 48, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 14px;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+
+.hero-image img:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 16px 48px rgba(26, 26, 26, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.14);
+}
+
+/* ===================== */
+/* Section About */
+/* ===================== */
+.about {
+  background: #f7fafd;
+  padding: 200px 0;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 100px;
+  padding: 0 24px;
+}
+
+.about-image img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 24px rgba(0,119,255,0.10);
+  border: 4px solid #fff;
+  background: #eaf6ff;
+}
+
+.about-text {
+  max-width: 600px;
+}
+
+.about-text h2 {
+  font-size: 2rem;
+  margin-bottom: 18px;
+  color: #111111;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 18px;
+}
+
+.about-text ul {
+  padding-left: 18px;
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .about-container {
+    flex-direction: column;
+    gap: 32px;
+    text-align: center;
+  }
+  .about-image img {
+    margin: 0 auto;
+  }
+}
+
+/* ===================== */
+/* Section Skills / Cards */
+/* ===================== */
+.skills {
+  padding: 64px 0 48px 0;
+  background: #f7fafd;
+  text-align: center;
+  padding-left: 400px;
+  padding-right: 400px;
+}
+
+.skills h2 {
+  font-size: 2.2rem;
+  color: #0077ff;
+  margin-bottom: 36px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Skills Cards Grid 4 Kolom */
+.skills-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px; /* Ubah dari 32px ke 18px */
+  justify-items: center;
+}
+
+/* Responsive: 2 kolom di tablet, 1 kolom di mobile */
+@media (max-width: 900px) {
+  .skills-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px; /* Ubah dari 18px ke 12px */
+  }
+}
+@media (max-width: 600px) {
+  .skills-cards {
+    grid-template-columns: 1fr;
+    gap: 10px; /* Ubah dari 14px ke 10px */
+  }
+}
+
+.skill-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(182, 182, 182, 0.1), 0 1.5px 8px rgba(0,0,0,0.04);
+  padding: 32px 24px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140px;
+  transition: transform 0.22s, box-shadow 0.22s, background 0.22s;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 2px 8px rgba(37, 37, 37, 0.1));
+  transition: transform 0.22s;
+}
+
+.skill-card span {
+  font-size: 1.08rem;
+  color: #222;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.skill-card:hover {
+  transform: translateY(-10px) scale(1.06) rotate(-2deg);
+  box-shadow: 0 12px 36px rgba(117, 117, 117, 0.18), 0 4px 16px rgba(0,0,0,0.12);
+  background: linear-gradient(120deg, #dbdbdb 60%, #a8a8a8 100%);
+  border-color: #2b2b2b;
+}
+
+.skill-card:hover img {
+  transform: scale(1.13) rotate(6deg);
+}
+
+/* ===================== */
+    /* Section Portfolio     */
+    /* ===================== */
+    .portfolio-section {
+      padding: 2rem;
+      background-color: #f5f5f5;
+      overflow: hidden;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-blur {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: blur(20px);
+      transition: opacity 0.5s ease-in-out;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+    }
+
+    .background-blur.active {
+      opacity: 1;
+    }
+
+    /* Pembungkus scroll horizontal */
+    .scroll-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+
+    .scroll-buttons {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .scroll-buttons button {
+      cursor: pointer;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      margin: 0 0.5rem;
+      font-size: 1.5rem;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+
+    .scroll-buttons button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Container horizontal */
+    .portfolio-container {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .portfolio-section > *:not(.background-blur) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .portfolio-section h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .portfolio-section p {
+      font-size: 1.2rem;
+      color: #555;
+      text-align: center;
+    }
+
+    /* Sembunyikan scrollbar */
+    .scroll-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Card */
+    .portfolio-card {
+      flex: 0 0 auto;
+      margin-top: 2rem;
+      height: 250px;
+      width: 350px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+      padding-bottom: 1rem;
+      min-width: 300px;
+    }
+
+    .portfolio-card:hover {
+      transform: scale(1.05);
+    }
+
+    .portfolio-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 8px 24px rgba(32, 32, 32, 0.15);
+    }
+
+    .portfolio-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .portfolio-card a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+/* ===================== */
+/* Responsive (Mobile) */
+/* ===================== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Navbar jadi vertikal */
+    align-items: flex-start;
+    padding: 12px 20px;
+  }
+  .navbar ul {
+    flex-direction: column; /* Menu jadi vertikal */
+    gap: 12px;
+    width: 100%;
+    margin-top: 12px;
+  }
+  .btn-github {
+    margin-top: 12px;
+    width: 100%;
+  }
+  .btn-github a {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .hero {
+    padding: 40px 0;
+  }
+  .hero-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-text {
+    margin-right: 0;
+    text-align: center;
+  }
+  .hero-image {
+    margin-top: 24px;
+  }
+}
+
+#home {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+  z-index: 1;
+  background: transparent !important;
+}
+.hero-container {
+  position: relative;
+  z-index: 2;
+}
+#home canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1;
+  pointer-events: none;
+}

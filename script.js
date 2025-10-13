@@ -1,167 +1,252 @@
-// Ambil semua link menu navbar
-const navLinks = document.querySelectorAll(".navbar ul li a");
-navLinks.forEach((link) => {
-  link.addEventListener("click", function () {
-    // Hapus class active dari semua link
-    navLinks.forEach((l) => l.classList.remove("active"));
-    // Tambahkan class active ke link yang diklik
-    this.classList.add("active");
-  });
-});
+// Particle Background Animation
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-// Inisialisasi VANTA.GLOBE pada section #home
-window.addEventListener("DOMContentLoaded", function () {
-  VANTA.GLOBE({
-    el: "#home",
-    mouseControls: true,
-    touchControls: true,
-    gyroControls: false,
-    minHeight: 200.0,
-    minWidth: 200.0,
-    scale: 1.0,
-    scaleMobile: 1.0,
-    color: 0x0077ff,
-    color2: 0x00e1ff,
-    backgroundColor: 0xffffff,
-  });
-});
+    let particlesArray = [];
+    const numberOfParticles = 100;
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll(".navbar ul li a");
-
-  window.addEventListener("scroll", () => {
-    let currentSection = null;
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const scrollY = window.pageYOffset;
-
-      // Tambahkan batas atas bawah (misalnya 150px buffer)
-      if (scrollY >= sectionTop - 150 && scrollY < sectionTop + sectionHeight - 150) {
-        currentSection = section.getAttribute("id");
-      }
-    });
-
-    navLinks.forEach((link) => {
-      link.classList.remove("active");
-
-      if (currentSection && link.getAttribute("href").includes(currentSection)) {
-        link.classList.add("active");
-      }
-    });
-  });
-});
-
-// fitur hover card porto backgroud sesuai card
-document.addEventListener("DOMContentLoaded", () => {
-  const portfolioSection = document.querySelector('.portfolio-section');
-
-  // Buat 2 div blur di portfolio section secara dinamis
-  const blur1 = document.createElement('div');
-  blur1.classList.add('background-blur');
-  portfolioSection.prepend(blur1);
-
-  const blur2 = document.createElement('div');
-  blur2.classList.add('background-blur');
-  portfolioSection.prepend(blur2);
-
-  let activeBlur = blur1;
-  let inactiveBlur = blur2;
-
-  const cards = document.querySelectorAll('.portfolio-card');
-
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      const imgSrc = card.querySelector('img').getAttribute('src');
-
-      // Set gambar di inactive blur
-      inactiveBlur.style.backgroundImage = `url(${imgSrc})`;
-
-      // Fade in inactive blur, fade out active blur
-      inactiveBlur.classList.add('active');
-      activeBlur.classList.remove('active');
-
-      // Swap active dan inactive refs
-      [activeBlur, inactiveBlur] = [inactiveBlur, activeBlur];
-    });
-
-    card.addEventListener('mouseleave', () => {
-      // Fade out blur saat mouse keluar semua cards
-      activeBlur.classList.remove('active');
-      inactiveBlur.classList.remove('active');
-    });
-  });
-});
-
-// auto scroll portofolio
-document.addEventListener("DOMContentLoaded", () => {
-      const container = document.getElementById('portfolioContainer');
-      const scrollLeftBtn = document.getElementById('scroll-left');
-      const scrollRightBtn = document.getElementById('scroll-right');
-      const blurDiv = document.querySelector('.background-blur');
-      const cards = document.querySelectorAll('.portfolio-card');
-
-      let scrollAmount = 0;
-      let autoScrollDirection = 1; // 1 = scroll right, -1 = scroll left
-
-      function updateMaxScroll() {
-        return container.scrollWidth - container.clientWidth;
+    // Get CSS variable for particle color
+    const rootStyles = getComputedStyle(document.documentElement);
+    
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 2 - 1;
+        this.speedY = Math.random() * 2 - 1;
       }
 
-      let maxScrollLeft = updateMaxScroll();
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
 
-      // Auto scroll function using requestAnimationFrame for smoothness
-      function autoScroll() {
-        maxScrollLeft = updateMaxScroll();
-
-        scrollAmount += 2 * autoScrollDirection; // kecepatan scroll
-
-        if (scrollAmount >= maxScrollLeft) {
-          scrollAmount = maxScrollLeft;
-          autoScrollDirection = -1; // balik scroll kiri
-        } else if (scrollAmount <= 0) {
-          scrollAmount = 0;
-          autoScrollDirection = 1; // balik scroll kanan
+        if (this.x > canvas.width || this.x < 0) {
+          this.speedX = -this.speedX;
         }
-
-        container.scrollLeft = scrollAmount;
-        requestAnimationFrame(autoScroll);
+        if (this.y > canvas.height || this.y < 0) {
+          this.speedY = -this.speedY;
+        }
       }
 
-      autoScroll();
+      draw() {
+        ctx.fillStyle = rootStyles.getPropertyValue('--particle-color');
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
-      // Tombol scroll kiri
-      scrollLeftBtn.addEventListener('click', () => {
-        scrollAmount -= 150;
-        if (scrollAmount < 0) scrollAmount = 0;
-        container.scrollLeft = scrollAmount;
+    function init() {
+      particlesArray = [];
+      for (let i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+
+    function connect() {
+      for (let a = 0; a < particlesArray.length; a++) {
+        for (let b = a; b < particlesArray.length; b++) {
+          const dx = particlesArray[a].x - particlesArray[b].x;
+          const dy = particlesArray[a].y - particlesArray[b].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 120) {
+            const opacity = 1 - (distance / 120);
+            ctx.strokeStyle = `rgba(0, 119, 255, ${opacity * 0.3})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+      }
+      connect();
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      init();
+    });
+
+    // Toggle Mobile Menu
+    function toggleMenu() {
+      const navMenu = document.getElementById('navMenu');
+      navMenu.classList.toggle('active');
+    }
+
+    // Active Navigation on Scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.navbar ul li a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        if (window.scrollY >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
       });
 
-      // Tombol scroll kanan
-      scrollRightBtn.addEventListener('click', () => {
-        scrollAmount += 150;
-        maxScrollLeft = updateMaxScroll();
-        if (scrollAmount > maxScrollLeft) scrollAmount = maxScrollLeft;
-        container.scrollLeft = scrollAmount;
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').includes(current)) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Close mobile menu when clicking a link
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navMenu').classList.remove('active');
+      });
+    });
+
+    // Portfolio Auto Scroll & Background Blur
+    const container = document.getElementById('portfolioContainer');
+    const scrollLeftBtn = document.getElementById('scroll-left');
+    const scrollRightBtn = document.getElementById('scroll-right');
+    const blurDivs = document.querySelectorAll('.background-blur');
+    const cards = document.querySelectorAll('.portfolio-card');
+
+    let scrollPos = 0;
+    let direction = 1;
+    let isAutoScrolling = true;
+    let autoScrollSpeed = 0.5;
+
+    function autoScroll() {
+      if (!isAutoScrolling) return;
+
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      scrollPos += autoScrollSpeed * direction;
+
+      if (scrollPos >= maxScroll) {
+        scrollPos = maxScroll;
+        direction = -1;
+      } else if (scrollPos <= 0) {
+        scrollPos = 0;
+        direction = 1;
+      }
+
+      container.style.transform = `translateX(-${scrollPos}px)`;
+      requestAnimationFrame(autoScroll);
+    }
+
+    autoScroll();
+
+    scrollLeftBtn.addEventListener('click', () => {
+      isAutoScrolling = false;
+      scrollPos = Math.max(0, scrollPos - 340);
+      container.style.transform = `translateX(-${scrollPos}px)`;
+      setTimeout(() => { isAutoScrolling = true; autoScroll(); }, 3000);
+    });
+
+    scrollRightBtn.addEventListener('click', () => {
+      isAutoScrolling = false;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      scrollPos = Math.min(maxScroll, scrollPos + 340);
+      container.style.transform = `translateX(-${scrollPos}px)`;
+      setTimeout(() => { isAutoScrolling = true; autoScroll(); }, 3000);
+    });
+
+    let activeBlur = blurDivs[0];
+    let inactiveBlur = blurDivs[1];
+
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const imgSrc = card.querySelector('img').getAttribute('src');
+        inactiveBlur.style.backgroundImage = `url(${imgSrc})`;
+        inactiveBlur.classList.add('active');
+        activeBlur.classList.remove('active');
+        [activeBlur, inactiveBlur] = [inactiveBlur, activeBlur];
       });
 
-      window.addEventListener('resize', () => {
-        maxScrollLeft = updateMaxScroll();
+      card.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+          const hoveredCard = document.querySelector('.portfolio-card:hover');
+          if (!hoveredCard) {
+            blurDivs.forEach(blur => blur.classList.remove('active'));
+          }
+        }, 100);
       });
+    });
 
-      // Blur background on hover card
-      cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          const imgSrc = card.querySelector('img').getAttribute('src');
-          blurDiv.style.backgroundImage = `url(${imgSrc})`;
-          blurDiv.classList.add('active');
-        });
+    const portfolioSection = document.querySelector('.portfolio-section');
+    portfolioSection.addEventListener('mouseenter', () => {
+      autoScrollSpeed = 0.2;
+    });
 
-        card.addEventListener('mouseleave', () => {
-          blurDiv.classList.remove('active');
-        });
+    portfolioSection.addEventListener('mouseleave', () => {
+      autoScrollSpeed = 0.5;
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
       });
+    });
+
+    // Scroll reveal animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.about-container, .skills, .portfolio-section, .contact-container').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Contact Form Handling
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+
+      alert('Terima kasih! Pesan Anda telah diterima. Saya akan segera menghubungi Anda kembali.');
+      this.reset();
     });

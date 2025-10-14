@@ -236,31 +236,13 @@
       observer.observe(el);
     });
 
-    // Contact Form Handling
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
+    (function(){
+      emailjs.init('Ktu04v42-NCcORf70');
+    })();
+
+    document.querySelector('#contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        subject: document.getElementById('subject').value,
-        message: document.getElementById('message').value
-      };
-
-      alert('Terima kasih! Pesan Anda telah diterima. Saya akan segera menghubungi Anda kembali.');
-      this.reset();
-    });
-
-    document.querySelector('#contactForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = Object.fromEntries(new FormData(e.target).entries());
-
-      const res = await fetch('/api/sendEmail', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      alert(data.message);
+      emailjs.sendForm('service_5ix6gku','template_hey6zvs', this)
+      .then(() => alert('Pesan berhasil dikirim!'))
+      .catch(err => alert('Gagal mengirim pesan: ' + err));
     });

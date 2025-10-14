@@ -236,13 +236,22 @@
       observer.observe(el);
     });
 
+     // Inisialisasi EmailJS
     (function(){
-      emailjs.init('Ktu04v42-NCcORf70');
+      emailjs.init({
+        publicKey: "Ktu04v42-NCcORf70" // ganti dengan public key kamu
+      });
     })();
 
-    document.querySelector('#contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      emailjs.sendForm('service_5ix6gku','template_hey6zvs', this)
-      .then(() => alert('Pesan berhasil dikirim!'))
-      .catch(err => alert('Gagal mengirim pesan: ' + err));
+    // Tangani form submit
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      emailjs.sendForm('service_5ix6gku', 'template_hey6zvs', this)
+        .then(function() {
+          alert('✅ Pesan berhasil dikirim!');
+          document.getElementById('contactForm').reset();
+        }, function(error) {
+          alert('❌ Gagal mengirim pesan: ' + JSON.stringify(error));
+        });
     });

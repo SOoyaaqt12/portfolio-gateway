@@ -236,22 +236,48 @@
       observer.observe(el);
     });
 
-     // Inisialisasi EmailJS
-    (function(){
-      emailjs.init({
-        publicKey: "Ktu04v42-NCcORf70" // ganti dengan public key kamu
+   // Web3Forms dengan AJAX handling
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Mengirim...';
+        submitBtn.disabled = true;
+        
+        const formData = new FormData(this);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+        
+        try {
+          const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: json
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            console.log('Success:', result);
+            alert('✅ Pesan berhasil dikirim! Terima kasih telah menghubungi saya.');
+            contactForm.reset();
+          } else {
+            console.error('Error:', result);
+            alert('❌ Gagal mengirim pesan. Silakan coba lagi.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('❌ Terjadi kesalahan. Silakan coba lagi atau hubungi via email langsung.');
+        } finally {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
       });
-    })();
-
-    // Tangani form submit
-    document.getElementById('contactForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      emailjs.sendForm('service_5ix6gku', 'template_hey6zvs', this)
-        .then(function() {
-          alert('✅ Pesan berhasil dikirim!');
-          document.getElementById('contactForm').reset();
-        }, function(error) {
-          alert('❌ Gagal mengirim pesan: ' + JSON.stringify(error));
-        });
-    });
+    }

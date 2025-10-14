@@ -219,7 +219,13 @@
       </div>
 
       <div class="contact-form">
-        <form id="contactForm">
+        <form action="https://api.web3forms.com/submit" method="POST" id="contactForm">
+          <!-- Ganti YOUR_ACCESS_KEY_HERE dengan access key dari web3forms.com -->
+          <input type="hidden" name="access_key" value="b4bd7bcf-978f-45e3-ab50-56585a50bf2d">
+          <input type="hidden" name="subject" value="Pesan Baru dari Portfolio Website">
+          <input type="hidden" name="from_name" value="Portfolio Contact Form">
+          <input type="hidden" name="redirect" value="thank-you.html">
+          
           <div class="form-group">
             <label for="name">Nama Lengkap</label>
             <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required />

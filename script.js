@@ -1,87 +1,17 @@
-// Splash screen logic dengan transisi yang SUPER KEREN
+// Splash screen logic
 window.addEventListener("load", () => {
   const splash = document.getElementById("splash-screen");
   const mainContent = document.getElementById("main-content");
 
-  console.log("Splash:", splash);
-  console.log("MainContent:", mainContent);
-
   setTimeout(() => {
     splash.classList.add("fade-out");
-    console.log("fade-out ditambahkan");
 
     setTimeout(() => {
       splash.style.display = "none";
       mainContent.classList.add("show");
-      console.log("class 'show' ditambahkan ke mainContent");
     }, 1000);
-  }, 2500);
+  }, 1500);
 });
-
-// Create particle burst effect saat transisi
-function createParticleBurst() {
-    const colors = ['#00e1ff', '#0077ff', '#38bdf8', '#60a5fa'];
-    const particleCount = 30;
-    
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.style.position = 'fixed';
-        particle.style.width = Math.random() * 10 + 5 + 'px';
-        particle.style.height = particle.style.width;
-        particle.style.borderRadius = '50%';
-        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-        particle.style.zIndex = '9999';
-        particle.style.pointerEvents = 'none';
-        particle.style.boxShadow = `0 0 ${Math.random() * 20 + 10}px currentColor`;
-        
-        document.body.appendChild(particle);
-        
-        const angle = (Math.PI * 2 * i) / particleCount;
-        const velocity = Math.random() * 300 + 200;
-        const tx = Math.cos(angle) * velocity;
-        const ty = Math.sin(angle) * velocity;
-        
-        particle.animate([
-            {
-                transform: 'translate(-50%, -50%) scale(0)',
-                opacity: 1
-            },
-            {
-                transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1)`,
-                opacity: 1,
-                offset: 0.7
-            },
-            {
-                transform: `translate(calc(-50% + ${tx * 1.5}px), calc(-50% + ${ty * 1.5}px)) scale(0)`,
-                opacity: 0
-            }
-        ], {
-            duration: 1000,
-            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-        }).onfinish = () => particle.remove();
-    }
-}
-
-// Optional: Add transition sound effect
-function playTransitionSound() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.3);
-    
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.3);
-}
 
 // Particle Background Animation
 const canvas = document.getElementById('particleCanvas');
@@ -92,8 +22,6 @@ canvas.height = window.innerHeight;
 
 let particlesArray = [];
 const numberOfParticles = 100;
-
-// Get CSS variable for particle color
 const rootStyles = getComputedStyle(document.documentElement);
 
 class Particle {
@@ -249,26 +177,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Scroll reveal animation
-const observerOptions = {
-  threshold: 0.1,
+// ============================================
+// SCROLL-TRIGGERED ANIMATIONS
+// ============================================
+
+const scrollObserverOptions = {
+  threshold: 0.15,
   rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const scrollObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
+      entry.target.classList.add('animate-in');
     }
   });
-}, observerOptions);
+}, scrollObserverOptions);
 
-document.querySelectorAll('.about-container, .skills, .contact-container').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  observer.observe(el);
+// Observe semua section dan elemen yang perlu animasi
+document.addEventListener('DOMContentLoaded', () => {
+  const observeElements = document.querySelectorAll(
+    '.hero, .about, .about-image, .about-text, .about-text ul li, .skills, .skills h2, .skill-card, .portfolio-section, .portfolio-section h2, .portfolio-card, .contact, .contact-info, .contact-item, .social-link, .contact-form, .form-group, .submit-btn, .footer'
+  );
+
+  observeElements.forEach(el => {
+    scrollObserver.observe(el);
+  });
 });
 
 // Web3Forms dengan AJAX handling

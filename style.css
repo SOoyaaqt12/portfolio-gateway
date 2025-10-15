@@ -63,13 +63,68 @@ html {
     flex-direction: column;
     z-index: 9999;
     color: #fff;
-    animation: fadeOut 0.8s ease forwards;
-    animation-delay: 2.8s; /* Waktu sebelum menghilang */
+    overflow: hidden;
+}
+
+/* Ripple effect background */
+#splash-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, #38bdf8 100%);
+    opacity: 0;
+    transform: scale(0);
+    transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#splash-screen.fade-out::before {
+    opacity: 0.3;
+    transform: scale(3);
+}
+
+#splash-screen.fade-out {
+    animation: splashExit 1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes splashExit {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0px);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+        filter: blur(5px);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.3);
+        filter: blur(20px);
+        pointer-events: none;
+    }
 }
 
 #splash-screen .logo {
     text-align: center;
     animation: popIn 0.8s ease-out forwards;
+    position: relative;
+    z-index: 2;
+}
+
+#splash-screen.fade-out .logo {
+    animation: logoExit 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes logoExit {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.3) translateY(-100px);
+    }
 }
 
 #splash-screen h1 {
@@ -80,6 +135,16 @@ html {
 
 #splash-screen h1 span {
     color: #38bdf8;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        text-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8;
+    }
+    50% {
+        text-shadow: 0 0 20px #38bdf8, 0 0 40px #38bdf8, 0 0 60px #38bdf8;
+    }
 }
 
 #splash-screen p {
@@ -90,27 +155,640 @@ html {
 /* Animasi masuk */
 @keyframes popIn {
     0% {
-        transform: scale(0.5);
+        transform: scale(0.5) rotate(-5deg);
         opacity: 0;
     }
+    60% {
+        transform: scale(1.1) rotate(2deg);
+    }
     100% {
-        transform: scale(1);
+        transform: scale(1) rotate(0);
         opacity: 1;
     }
 }
 
-/* Animasi keluar */
-@keyframes fadeOut {
+/* Main Content Initial State & Animations */
+.main-content {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.main-content.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Navbar dramatic entrance */
+.navbar {
+    opacity: 0;
+    transform: translateY(-100%) rotateX(-90deg);
+    transform-origin: top center;
+}
+
+.main-content.show .navbar {
+    animation: navbarEntrance 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+}
+
+@keyframes navbarEntrance {
     0% {
+        opacity: 0;
+        transform: translateY(-100%) rotateX(-90deg);
+    }
+    60% {
         opacity: 1;
-        visibility: visible;
+        transform: translateY(10px) rotateX(5deg);
     }
     100% {
-        opacity: 0;
-        visibility: hidden;
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
     }
 }
 
+/* Navbar logo animation */
+.main-content.show .navbar .logo {
+    animation: logoSpin 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards;
+    opacity: 0;
+}
+
+@keyframes logoSpin {
+    0% {
+        opacity: 0;
+        transform: rotate(-360deg) scale(0);
+    }
+    70% {
+        transform: rotate(20deg) scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+/* Navbar menu items staggered */
+.navbar ul li {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.main-content.show .navbar ul li:nth-child(1) {
+    animation: menuItemDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1s forwards;
+}
+
+.main-content.show .navbar ul li:nth-child(2) {
+    animation: menuItemDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s forwards;
+}
+
+.main-content.show .navbar ul li:nth-child(3) {
+    animation: menuItemDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
+}
+
+.main-content.show .navbar ul li:nth-child(4) {
+    animation: menuItemDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s forwards;
+}
+
+@keyframes menuItemDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) rotateX(-90deg);
+    }
+    70% {
+        transform: translateY(5px) rotateX(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+/* GitHub button pop */
+.navbar .btn-github {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.main-content.show .navbar .btn-github {
+    animation: buttonPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s forwards;
+}
+
+/* Hero section explosive entrance */
+.hero {
+    opacity: 0;
+}
+
+.main-content.show .hero {
+    animation: heroExplosion 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards;
+}
+
+@keyframes heroExplosion {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(100px) rotateZ(-10deg);
+        filter: blur(20px);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.05) translateY(-10px) rotateZ(2deg);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotateZ(0);
+        filter: blur(0px);
+    }
+}
+
+/* Hero text elements staggered */
+.hero-text h1 {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.main-content.show .hero-text h1 {
+    animation: slideUpBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
+}
+
+.hero-text p {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.main-content.show .hero-text p {
+    animation: slideUpBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s forwards;
+}
+
+.hero-text .btn-primary {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.main-content.show .hero-text .btn-primary {
+    animation: buttonPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s forwards;
+}
+
+@keyframes slideUpBounce {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    70% {
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes buttonPop {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    70% {
+        transform: scale(1.1) rotate(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Hero image with 3D rotation */
+.hero-image {
+    opacity: 0;
+}
+
+.main-content.show .hero-image {
+    animation: imageReveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s forwards;
+}
+
+@keyframes imageReveal {
+    0% {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(90deg) translateX(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0) translateX(0);
+    }
+}
+
+/* Sections with wave effect */
+.about {
+    opacity: 0;
+}
+
+.main-content.show .about {
+    animation: waveSlideIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 1.8s forwards;
+}
+
+/* About image spin in */
+.about-image {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+}
+
+.main-content.show .about-image {
+    animation: spinGrow 1s cubic-bezier(0.34, 1.56, 0.64, 1) 2s forwards;
+}
+
+@keyframes spinGrow {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    70% {
+        transform: scale(1.1) rotate(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* About text slide from right */
+.about-text {
+    opacity: 0;
+    transform: translateX(100px);
+}
+
+.main-content.show .about-text {
+    animation: slideFromRight 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
+}
+
+@keyframes slideFromRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* About list items staggered */
+.about-text ul li {
+    opacity: 0;
+    transform: translateX(-50px);
+}
+
+.main-content.show .about-text ul li:nth-child(1) {
+    animation: listItemSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.4s forwards;
+}
+
+.main-content.show .about-text ul li:nth-child(2) {
+    animation: listItemSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards;
+}
+
+.main-content.show .about-text ul li:nth-child(3) {
+    animation: listItemSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.6s forwards;
+}
+
+.main-content.show .about-text ul li:nth-child(4) {
+    animation: listItemSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.7s forwards;
+}
+
+@keyframes listItemSlide {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    70% {
+        transform: translateX(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Skills section title */
+.skills h2 {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.main-content.show .skills h2 {
+    animation: titleZoom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.8s forwards;
+}
+
+@keyframes titleZoom {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    70% {
+        transform: scale(1.2) rotate(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Skill cards cascade */
+.skill-card {
+    opacity: 0;
+    transform: translateY(50px) rotateX(-90deg);
+}
+
+.main-content.show .skill-card:nth-child(1) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3s forwards; }
+.main-content.show .skill-card:nth-child(2) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.05s forwards; }
+.main-content.show .skill-card:nth-child(3) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.1s forwards; }
+.main-content.show .skill-card:nth-child(4) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.15s forwards; }
+.main-content.show .skill-card:nth-child(5) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.2s forwards; }
+.main-content.show .skill-card:nth-child(6) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.25s forwards; }
+.main-content.show .skill-card:nth-child(7) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.3s forwards; }
+.main-content.show .skill-card:nth-child(8) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.35s forwards; }
+.main-content.show .skill-card:nth-child(9) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.4s forwards; }
+.main-content.show .skill-card:nth-child(10) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.45s forwards; }
+.main-content.show .skill-card:nth-child(11) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.5s forwards; }
+.main-content.show .skill-card:nth-child(12) { animation: cardFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.55s forwards; }
+
+@keyframes cardFlip {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) rotateX(-90deg);
+    }
+    70% {
+        transform: translateY(-10px) rotateX(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+/* Portfolio section */
+.portfolio-section {
+    opacity: 0;
+}
+
+.main-content.show .portfolio-section {
+    animation: waveSlideIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards;
+}
+
+/* Portfolio title bounce */
+.portfolio-section h2 {
+    opacity: 0;
+    transform: translateY(-50px);
+}
+
+.main-content.show .portfolio-section h2 {
+    animation: titleBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards;
+}
+
+@keyframes titleBounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.5);
+    }
+    70% {
+        transform: translateY(10px) scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Portfolio cards cascade with 3D */
+.portfolio-card {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-90deg) translateX(-100px);
+}
+
+.main-content.show .portfolio-card:nth-child(1) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards; }
+.main-content.show .portfolio-card:nth-child(2) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s forwards; }
+.main-content.show .portfolio-card:nth-child(3) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards; }
+.main-content.show .portfolio-card:nth-child(4) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.8s forwards; }
+.main-content.show .portfolio-card:nth-child(5) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.9s forwards; }
+.main-content.show .portfolio-card:nth-child(6) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2s forwards; }
+.main-content.show .portfolio-card:nth-child(7) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.1s forwards; }
+.main-content.show .portfolio-card:nth-child(8) { animation: cardRotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards; }
+
+@keyframes cardRotateIn {
+    0% {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(-90deg) translateX(-100px);
+    }
+    70% {
+        transform: perspective(1000px) rotateY(10deg) translateX(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0) translateX(0);
+    }
+}
+
+/* Contact section */
+.contact {
+    opacity: 0;
+}
+
+.main-content.show .contact {
+    animation: waveSlideIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 1.8s forwards;
+}
+
+/* Contact info slide from left */
+.contact-info {
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
+.main-content.show .contact-info {
+    animation: slideFromLeft 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2s forwards;
+}
+
+@keyframes slideFromLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Contact items staggered */
+.contact-item {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.8);
+}
+
+.main-content.show .contact-item:nth-child(1) {
+    animation: contactItemPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
+}
+
+.main-content.show .contact-item:nth-child(2) {
+    animation: contactItemPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.3s forwards;
+}
+
+.main-content.show .contact-item:nth-child(3) {
+    animation: contactItemPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.4s forwards;
+}
+
+@keyframes contactItemPop {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px) scale(0.8);
+    }
+    70% {
+        transform: translateX(10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Social links pop */
+.social-link {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+}
+
+.main-content.show .social-link:nth-child(1) {
+    animation: socialPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards;
+}
+
+.main-content.show .social-link:nth-child(2) {
+    animation: socialPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.6s forwards;
+}
+
+.main-content.show .social-link:nth-child(3) {
+    animation: socialPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.7s forwards;
+}
+
+.main-content.show .social-link:nth-child(4) {
+    animation: socialPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.8s forwards;
+}
+
+@keyframes socialPop {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    70% {
+        transform: scale(1.2) rotate(20deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Contact form slide from right */
+/* Form groups staggered */
+.contact-form .form-group {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.main-content.show .contact-form .form-group {
+    animation: formFieldSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 2.4s forwards;
+}
+
+.main-content.show .contact-form .form-group:nth-of-type(2) {
+    animation: formFieldSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards;
+}
+
+.main-content.show .contact-form .form-group:nth-of-type(3) {
+    animation: formFieldSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 2.6s forwards;
+}
+
+.main-content.show .contact-form .form-group:nth-of-type(4) {
+    animation: formFieldSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 2.7s forwards;
+}
+
+@keyframes formFieldSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Submit button bounce */
+.submit-btn {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.main-content.show .submit-btn {
+    animation: buttonBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.8s forwards;
+}
+
+@keyframes buttonBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-90deg);
+    }
+    70% {
+        transform: scale(1.1) rotate(5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Footer */
+.footer {
+    opacity: 0;
+}
+
+.main-content.show .footer {
+    animation: footerSlideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 3s forwards;
+}
+
+@keyframes footerSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes waveSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px) translateY(50px) scale(0.8);
+        filter: blur(10px);
+    }
+    60% {
+        transform: translateX(10px) translateY(-5px) scale(1.02);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) translateY(0) scale(1);
+        filter: blur(0px);
+    }
+}
+
+/* Particle Canvas with entrance animation */
+.main-content.show #particleCanvas {
+    animation: canvasFadeIn 1.5s ease-out 0.5s forwards;
+    opacity: 0;
+}
+
+@keyframes canvasFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 /* Particle Background Canvas */
 #particleCanvas {
@@ -631,29 +1309,7 @@ html {
   overflow: hidden;
   transition: all 0.4s ease;
   position: relative;
-  opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
 }
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.portfolio-card:nth-child(1) { animation-delay: 0.1s; }
-.portfolio-card:nth-child(2) { animation-delay: 0.2s; }
-.portfolio-card:nth-child(3) { animation-delay: 0.3s; }
-.portfolio-card:nth-child(4) { animation-delay: 0.4s; }
-.portfolio-card:nth-child(5) { animation-delay: 0.5s; }
-.portfolio-card:nth-child(6) { animation-delay: 0.6s; }
-.portfolio-card:nth-child(7) { animation-delay: 0.7s; }
-.portfolio-card:nth-child(8) { animation-delay: 0.8s; }
 
 .portfolio-card:hover {
   transform: translateY(-15px);

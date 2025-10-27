@@ -1,3 +1,18 @@
+// Splash screen logic
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splash-screen");
+  const mainContent = document.getElementById("main-content");
+
+  setTimeout(() => {
+    splash.classList.add("fade-out");
+
+    setTimeout(() => {
+      splash.style.display = "none";
+      mainContent.classList.add("show");
+    }, 1000);
+  }, 1500);
+});
+
 // Particle Background Animation
 const canvas = document.getElementById('particleCanvas');
 const ctx = canvas.getContext('2d');
@@ -7,8 +22,6 @@ canvas.height = window.innerHeight;
 
 let particlesArray = [];
 const numberOfParticles = 100;
-
-// Get CSS variable for particle color
 const rootStyles = getComputedStyle(document.documentElement);
 
 class Particle {
@@ -122,6 +135,34 @@ navLinks.forEach(link => {
   });
 });
 
+// Portfolio Background Blur Effect
+const blurDivs = document.querySelectorAll('.background-blur');
+const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+if (blurDivs.length >= 2 && portfolioCards.length > 0) {
+  let activeBlur = blurDivs[0];
+  let inactiveBlur = blurDivs[1];
+
+  portfolioCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      const imgSrc = card.querySelector('.portfolio-image img').getAttribute('src');
+      inactiveBlur.style.backgroundImage = `url(${imgSrc})`;
+      inactiveBlur.classList.add('active');
+      activeBlur.classList.remove('active');
+      [activeBlur, inactiveBlur] = [inactiveBlur, activeBlur];
+    });
+
+    card.addEventListener('mouseleave', () => {
+      setTimeout(() => {
+        const hoveredCard = document.querySelector('.portfolio-card:hover');
+        if (!hoveredCard) {
+          blurDivs.forEach(blur => blur.classList.remove('active'));
+        }
+      }, 100);
+    });
+  });
+}
+
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -136,49 +177,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Scroll reveal animation
-const observerOptions = {
-  threshold: 0.1,
+// ============================================
+// SCROLL-TRIGGERED ANIMATIONS
+// ============================================
+
+const scrollObserverOptions = {
+  threshold: 0.15,
   rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const scrollObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
+      entry.target.classList.add('animate-in');
     }
   });
-}, observerOptions);
+}, scrollObserverOptions);
 
-document.querySelectorAll('.about-container, .skills, .portfolio-section, .contact-container').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  observer.observe(el);
-});
+// Observe semua section dan elemen yang perlu animasi
+document.addEventListener('DOMContentLoaded', () => {
+  const observeElements = document.querySelectorAll(
+    '.hero, .about, .about-image, .about-text, .about-text ul li, .skills, .skills h2, .skill-card, .portfolio-section, .portfolio-section h2, .portfolio-card, .contact, .contact-info, .contact-item, .social-link, .contact-form, .form-group, .submit-btn, .footer'
+  );
 
-// Portfolio Cards Animation on Scroll
-const portfolioCards = document.querySelectorAll('.portfolio-card');
-const portfolioObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }, index * 100);
-    }
+  observeElements.forEach(el => {
+    scrollObserver.observe(el);
   });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-});
-
-portfolioCards.forEach(card => {
-  card.style.opacity = '0';
-  card.style.transform = 'translateY(30px)';
-  card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  portfolioObserver.observe(card);
 });
 
 // Web3Forms dengan AJAX handling

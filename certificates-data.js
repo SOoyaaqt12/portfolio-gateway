@@ -3,83 +3,52 @@
 const certificatesData = [
   {
     id: 1,
-    title: "Web Development Fundamentals",
-    issuer: "Dicoding Indonesia",
-    date: "September 2023",
+    title: "Developing Landing Pages with HTML and CSS",
+    issuer: "PT Wan International",
+    date: "Desember 2023",
+    grade: "99",  // 👈 TAMBAHKAN INI
     images: {
-      front: "assets/certificate1.jpg",
-      back: "assets/certificate1-back.jpg" // opsional
+      front: "assets/3.1.jpg",
+      back: "assets/3.2.jpg"
     },
-    description: "Sertifikat dasar pengembangan web mencakup HTML, CSS, dan JavaScript",
-    credentialId: "DICT-12345",
-    credentialUrl: "https://dicoding.com/certificates/xxx"
+    description: "Pengembangan website e-commerce rumah makan menggunakan HMTL dan CSS."
   },
   {
     id: 2,
-    title: "JavaScript Advanced",
-    issuer: "Coursera",
-    date: "November 2023",
+    title: "Developing a Laravel library management website with the Laravel framework.",
+    issuer: "PT Kreasi Media",
+    date: "Desember 2024",
+    grade: "85",  // 👈 TAMBAHKAN INI
     images: {
-      front: "assets/certificate2.jpg",
-      back: "assets/certificate2-back.jpg"
+      front: "assets/2.1.jpg",
+      back: "assets/2.2.jpg"
     },
-    description: "JavaScript lanjutan termasuk ES6+, Async/Await, dan OOP",
-    credentialId: "COURS-67890",
-    credentialUrl: "https://coursera.org/verify/xxx"
+    description: "Pengembangan manejemen perpustakaan sekolah berbasis website menggunakan PHP Laravel."
   },
   {
     id: 3,
-    title: "React.js Professional",
-    issuer: "Udemy",
-    date: "Januari 2024",
+    title: "Developing full-stack mobile applications using the React Native and Laravel frameworks.",
+    issuer: "PT Ginvo Indonesia Group",
+    date: "Juni 2025",
+    grade: "83",  // 👈 TAMBAHKAN INI
     images: {
-      front: "assets/certificate3.jpg",
-      back: null // jika tidak ada bagian belakang
+      front: "assets/1.jpg",
+      back: "assets/2.jpg"
     },
-    description: "Pengembangan aplikasi React.js profesional dengan Hooks dan Redux",
-    credentialId: "UC-REACT-001",
-    credentialUrl: "https://udemy.com/certificate/xxx"
+    description: "Pengembangan aplikasi Habit Tracker dengan menggunakan React Native dan juga Android Studio."
   },
   {
     id: 4,
-    title: "PHP & Laravel Development",
-    issuer: "Laracasts",
-    date: "Maret 2024",
+    title: "TOEIC LISTENING AND READING OFFICIAL SCORE CERTIFICATE.",
+    issuer: "Educational Testing Service",
+    date: "Agustus 2025",
+    grade: "440",  // 👈 TAMBAHKAN INI
     images: {
-      front: "assets/certificate4.jpg",
-      back: "assets/certificate4-back.jpg"
+      front: "assets/ETS.pdf.jpg",
+      back: null
     },
-    description: "Pengembangan web menggunakan framework Laravel",
-    credentialId: "LC-PHP-123",
-    credentialUrl: "https://laracasts.com/certificates/xxx"
+    description: "Sertifikat ini didapatkan setelah menjalani tes Toeic mendengar dan membaca, sertifikat ini digunakan untuk pembuktian kemampuan kita dalam pemahaman bahasa inggris"
   },
-  {
-    id: 5,
-    title: "UI/UX Design Fundamentals",
-    issuer: "Google Design",
-    date: "Mei 2024",
-    images: {
-      front: "assets/certificate5.jpg",
-      back: "assets/certificate5-back.jpg"
-    },
-    description: "Fundamental desain UI/UX dengan prinsip Google Material Design",
-    credentialId: "GOOG-UX-456",
-    credentialUrl: "https://design.google/certificate/xxx"
-  },
-  {
-    id: 6,
-    title: "Full Stack Web Development",
-    issuer: "FreeCodeCamp",
-    date: "Juli 2024",
-    images: {
-      front: "assets/certificate6.jpg",
-      back: "assets/certificate6-back.jpg"
-    },
-    description: "Sertifikat full stack developer mencakup frontend dan backend",
-    credentialId: "FCC-FULL-789",
-    credentialUrl: "https://freecodecamp.org/certification/xxx"
-  }
-  // Tambah sertifikat baru cukup copy-paste format di atas
 ];
 
 // ===== DYNAMIC CERTIFICATE RENDERING =====
@@ -88,10 +57,8 @@ function renderCertificates() {
   
   if (!certificatesGrid) return;
   
-  // Kosongkan grid terlebih dahulu
   certificatesGrid.innerHTML = '';
   
-  // Render setiap sertifikat
   certificatesData.forEach(cert => {
     const certCard = document.createElement('div');
     certCard.className = 'certificate-card';
@@ -116,7 +83,6 @@ function renderCertificates() {
     certificatesGrid.appendChild(certCard);
   });
   
-  // Attach event listeners untuk modal
   attachCertificateModalListeners();
 }
 
@@ -202,9 +168,8 @@ function openCertificateModal(certId) {
   document.getElementById('modalTitle').textContent = cert.title;
   document.getElementById('modalIssuer').textContent = cert.issuer;
   document.getElementById('modalDate').textContent = cert.date;
-  document.getElementById('modalCredentialId').textContent = cert.credentialId;
+  document.getElementById('modalGrade').textContent = cert.grade || 'A';
   document.getElementById('modalDescription').textContent = cert.description;
-  document.getElementById('modalCredentialUrl').href = cert.credentialUrl;
   
   // Set gambar
   const mainImage = document.getElementById('modalMainImage');
@@ -244,7 +209,6 @@ function setupThumbnailSwitching() {
       thumbnailBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       
-      const side = btn.getAttribute('data-side');
       const imgSrc = btn.querySelector('img').src;
       mainImage.src = imgSrc;
     };
@@ -265,19 +229,18 @@ function setupModalCloseHandlers(modal) {
   backdrop.onclick = closeModal;
   
   // Close dengan ESC key
-  document.addEventListener('keydown', (e) => {
+  const handleEscape = (e) => {
     if (e.key === 'Escape' && modal.classList.contains('active')) {
       closeModal();
     }
-  });
+  };
+  
+  // Remove old listener if exists
+  document.removeEventListener('keydown', handleEscape);
+  document.addEventListener('keydown', handleEscape);
 }
 
 // ===== INITIALIZE =====
 document.addEventListener('DOMContentLoaded', () => {
   renderCertificates();
 });
-
-// Export untuk digunakan di file lain jika perlu
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { certificatesData, renderCertificates };
-}

@@ -352,3 +352,52 @@
 @keyframes spin {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
+
+@media (max-width: 768px) {
+  .modal-content-wrapper {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .modal-body {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .thumbnail-container {
+    flex-direction: column;
+  }
+
+  .thumbnail-btn {
+    flex-direction: row;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .thumbnail-btn img {
+    width: 80px;
+    height: 60px;
+  }
+
+  .detail-item {
+    grid-template-columns: 1fr;  /* 👈 PERBAIKAN INI */
+    gap: 8px;
+    padding: 12px 15px;
+  }
+  
+  .detail-label {
+    font-size: 0.8rem;
+  }
+  
+  .grade-badge {
+    align-self: flex-start;
+  }
+}

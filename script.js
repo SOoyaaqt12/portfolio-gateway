@@ -369,3 +369,14 @@ window.addEventListener('scroll', () => {
     }
   });
 });
+
+// Splash screen logic
+window.addEventListener("load", () => {
+    const splash = document.getElementById("splash-screen");
+    const main = document.getElementById("main-content");
+
+    setTimeout(() => {
+        splash.style.display = "none";
+        main.style.display = "block";
+    }, 3000); // waktu dalam milidetik (3 detik)
+});

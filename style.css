@@ -63,6 +63,65 @@ html {
   pointer-events: none;
 }
 
+/* ========== Splash Screen Styles ========== */
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, #0f172a, #020617);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    color: #fff;
+    animation: fadeOut 0.8s ease forwards;
+    animation-delay: 2.8s; /* Waktu sebelum menghilang */
+}
+
+#splash-screen .logo {
+    text-align: center;
+    animation: popIn 0.8s ease-out forwards;
+}
+
+#splash-screen h1 {
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+#splash-screen h1 span {
+    color: #38bdf8;
+}
+
+#splash-screen p {
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+/* Animasi masuk */
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Animasi keluar */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
 /* ===================== */
 /* Navbar */
 /* ===================== */

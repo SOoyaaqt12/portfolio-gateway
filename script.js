@@ -114,6 +114,23 @@ window.addEventListener('scroll', () => {
   });
 });
 
+// ===== NAVBAR SCROLL EFFECT - TRANSPARANSI =====
+const navbar = document.querySelector('.navbar');
+let lastScroll = 0;
+
+window.addEventListener('scroll', () => {
+  const currentScroll = window.pageYOffset;
+  
+  // Tambah class 'scrolled' saat scroll lebih dari 50px
+  if (currentScroll > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  lastScroll = currentScroll;
+});
+
 // Close mobile menu when clicking a link
 navLinks.forEach(link => {
   link.addEventListener('click', () => {

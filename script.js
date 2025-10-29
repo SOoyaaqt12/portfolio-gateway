@@ -114,7 +114,7 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// ===== NAVBAR SCROLL EFFECT - TRANSPARANSI =====
+// ===== NAVBAR SCROLL EFFECT - TRANSPARANSI + HIDE/SHOW =====
 const navbar = document.querySelector('.navbar');
 let lastScroll = 0;
 
@@ -126,6 +126,15 @@ window.addEventListener('scroll', () => {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');
+  }
+  
+  // Hide navbar saat scroll down, show saat scroll up
+  if (currentScroll > lastScroll && currentScroll > 100) {
+    // Scroll Down - Hide navbar
+    navbar.classList.add('navbar-hidden');
+  } else {
+    // Scroll Up - Show navbar
+    navbar.classList.remove('navbar-hidden');
   }
   
   lastScroll = currentScroll;

@@ -400,3 +400,84 @@
     padding: 10px 12px;
   }
 }
+
+/* ===== LOADING STATE FOR IMAGES ===== */
+.main-image-container.loading {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+}
+
+.main-image-container.loading::after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--border-color);
+  border-top-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spinLoader 0.8s linear infinite;
+  z-index: 10;
+}
+
+.main-image-container.loading img {
+  opacity: 0;
+}
+
+@keyframes spinLoader {
+  to { transform: rotate(360deg); }
+}
+
+/* Smooth fade in untuk gambar */
+.main-image-container img {
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+/* Loading state untuk thumbnail */
+.thumbnail-btn.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.thumbnail-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spinLoader 0.6s linear infinite;
+}
+
+/* Responsive loading indicator */
+@media (max-width: 768px) {
+  .main-image-container.loading {
+    min-height: 300px;
+  }
+  
+  .main-image-container.loading::after {
+    width: 40px;
+    height: 40px;
+    border-width: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-image-container.loading {
+    min-height: 250px;
+  }
+  
+  .main-image-container.loading::after {
+    width: 35px;
+    height: 35px;
+    border-width: 3px;
+  }
+}

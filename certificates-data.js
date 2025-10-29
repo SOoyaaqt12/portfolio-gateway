@@ -51,6 +51,25 @@ const certificatesData = [
   },
 ];
 
+// ===== PRELOAD IMAGES =====
+function preloadCertificateImages() {
+  console.log('🖼️ Preloading certificate images...');
+  
+  certificatesData.forEach(cert => {
+    // Preload gambar depan
+    const frontImg = new Image();
+    frontImg.src = cert.images.front;
+    
+    // Preload gambar belakang jika ada
+    if (cert.images.back) {
+      const backImg = new Image();
+      backImg.src = cert.images.back;
+    }
+  });
+  
+  console.log('✅ All images preloaded');
+}
+
 // ===== DYNAMIC CERTIFICATE RENDERING =====
 function renderCertificates() {
   const certificatesGrid = document.querySelector('.certificates-grid');
@@ -66,7 +85,7 @@ function renderCertificates() {
     
     certCard.innerHTML = `
       <div class="certificate-image">
-        <img src="${cert.images.front}" alt="${cert.title}" loading="lazy" />
+        <img src="${cert.images.front}" alt="${cert.title}" loading="eager" />
         <div class="certificate-overlay">
           <button class="view-certificate-btn" data-cert-id="${cert.id}">
             Lihat Detail
@@ -171,17 +190,39 @@ function openCertificateModal(certId) {
   document.getElementById('modalGrade').textContent = cert.grade || 'A';
   document.getElementById('modalDescription').textContent = cert.description;
   
-  // Set gambar
+  // Set gambar dengan loading indicator
   const mainImage = document.getElementById('modalMainImage');
   const thumbFront = document.getElementById('modalThumbFront');
   const thumbBack = document.getElementById('modalThumbBack');
   const backBtn = document.querySelector('.thumbnail-btn[data-side="back"]');
+  const mainContainer = document.querySelector('.main-image-container');
   
-  mainImage.src = cert.images.front;
+  // Tambahkan loading state
+  mainContainer.classList.add('loading');
+  
+  // Load gambar utama
+  const tempImg = new Image();
+  tempImg.onload = () => {
+    mainImage.src = cert.images.front;
+    setTimeout(() => {
+      mainContainer.classList.remove('loading');
+    }, 100);
+  };
+  tempImg.onerror = () => {
+    console.error('Failed to load image:', cert.images.front);
+    mainContainer.classList.remove('loading');
+    mainImage.src = cert.images.front; // Tetap coba load
+  };
+  tempImg.src = cert.images.front;
+  
   thumbFront.src = cert.images.front;
   
   // Handle gambar belakang
   if (cert.images.back) {
+    // Preload gambar belakang
+    const backTempImg = new Image();
+    backTempImg.src = cert.images.back;
+    
     thumbBack.src = cert.images.back;
     backBtn.style.display = 'block';
   } else {
@@ -203,6 +244,7 @@ function openCertificateModal(certId) {
 function setupThumbnailSwitching() {
   const thumbnailBtns = document.querySelectorAll('.thumbnail-btn');
   const mainImage = document.getElementById('modalMainImage');
+  const mainContainer = document.querySelector('.main-image-container');
   
   thumbnailBtns.forEach(btn => {
     btn.onclick = () => {
@@ -210,7 +252,24 @@ function setupThumbnailSwitching() {
       btn.classList.add('active');
       
       const imgSrc = btn.querySelector('img').src;
-      mainImage.src = imgSrc;
+      
+      // Tambahkan loading state
+      mainContainer.classList.add('loading');
+      
+      // Load gambar baru
+      const tempImg = new Image();
+      tempImg.onload = () => {
+        mainImage.src = imgSrc;
+        setTimeout(() => {
+          mainContainer.classList.remove('loading');
+        }, 100);
+      };
+      tempImg.onerror = () => {
+        console.error('Failed to load image:', imgSrc);
+        mainContainer.classList.remove('loading');
+        mainImage.src = imgSrc;
+      };
+      tempImg.src = imgSrc;
     };
   });
 }
@@ -221,10 +280,8 @@ function setupModalCloseHandlers(modal) {
   const backdrop = modal.querySelector('.modal-backdrop');
   
   const closeModal = () => {
-    // Tambahkan class closing untuk animasi
     modal.classList.add('closing');
     
-    // Tunggu animasi selesai baru remove class active
     setTimeout(() => {
       modal.classList.remove('active', 'closing');
       document.body.style.overflow = 'auto';
@@ -234,7 +291,6 @@ function setupModalCloseHandlers(modal) {
   closeBtn.onclick = closeModal;
   backdrop.onclick = closeModal;
   
-  // Close dengan ESC key
   const handleEscape = (e) => {
     if (e.key === 'Escape' && modal.classList.contains('active')) {
       closeModal();
@@ -277,6 +333,10 @@ function initCertificatesBackgroundBlur() {
 
 // ===== INITIALIZE =====
 document.addEventListener('DOMContentLoaded', () => {
+  // Preload gambar terlebih dahulu
+  preloadCertificateImages();
+  
+  // Render certificates
   renderCertificates();
   
   // Init background blur setelah cards di-render

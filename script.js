@@ -114,6 +114,32 @@ window.addEventListener('scroll', () => {
   });
 });
 
+// ===== NAVBAR SCROLL EFFECT - TRANSPARANSI + HIDE/SHOW =====
+const navbar = document.querySelector('.navbar');
+let lastScroll = 0;
+
+window.addEventListener('scroll', () => {
+  const currentScroll = window.pageYOffset;
+  
+  // Tambah class 'scrolled' saat scroll lebih dari 50px
+  if (currentScroll > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  // Hide navbar saat scroll down, show saat scroll up
+  if (currentScroll > lastScroll && currentScroll > 100) {
+    // Scroll Down - Hide navbar
+    navbar.classList.add('navbar-hidden');
+  } else {
+    // Scroll Up - Show navbar
+    navbar.classList.remove('navbar-hidden');
+  }
+  
+  lastScroll = currentScroll;
+});
+
 // Close mobile menu when clicking a link
 navLinks.forEach(link => {
   link.addEventListener('click', () => {

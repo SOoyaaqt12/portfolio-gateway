@@ -128,6 +128,10 @@ html {
 /* ===================== */
 /* Navbar */
 /* ===================== */
+.navbar.navbar-hidden {
+  transform: translateY(-100%);
+}
+
 .navbar {
   display: flex;
   align-items: center;
@@ -135,11 +139,27 @@ html {
   background: var(--navbar-bg);
   padding: 0 40px;
   box-shadow: 0 2px 8px var(--navbar-shadow);
-  position: sticky;
+  position: fixed; /* UBAH dari sticky ke fixed */
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   backdrop-filter: blur(20px);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Navbar saat scroll - opacity berkurang */
+.navbar.scrolled {
+  background: rgba(250, 250, 250, 0.7); /* Light mode - lebih transparan */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode scrolled navbar */
+@media (prefers-color-scheme: dark) {
+  .navbar.scrolled {
+    background: rgba(15, 15, 15, 0.7); /* Dark mode - lebih transparan */
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.03);
+  }
 }
 
 .logo img {
@@ -234,7 +254,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px;
+  padding: 140px 20px 80px; /* Tambah padding top untuk navbar */
   position: relative;
   overflow: hidden;
 }

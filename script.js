@@ -8,7 +8,6 @@ canvas.height = window.innerHeight;
 let particlesArray = [];
 const numberOfParticles = 100;
 
-// Get CSS variable for particle color
 const rootStyles = getComputedStyle(document.documentElement);
 
 class Particle {
@@ -232,151 +231,65 @@ if (contactForm) {
   });
 }
 
-// Certificate Modal Viewer
-const certificateImages = document.querySelectorAll('.certificate-image img');
-const viewCertificateLinks = document.querySelectorAll('.view-certificate');
+// ===== SPLASH SCREEN LOGIC - VERSI DENGAN FADE OUT ANIMATION =====
 
-// Create modal for viewing certificates
-function createCertificateModal() {
-  const modal = document.createElement('div');
-  modal.className = 'certificate-modal';
-  modal.innerHTML = `
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <img src="" alt="Certificate" class="modal-image">
-    </div>
-  `;
-  
-  // Add modal styles
-  const style = document.createElement('style');
-  style.textContent = `
-    .certificate-modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      overflow: auto;
-    }
-    
-    .modal-content {
-      position: relative;
-      margin: auto;
-      padding: 0;
-      width: 90%;
-      max-width: 900px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    
-    .modal-image {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-    
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 35px;
-      color: #f1f1f1;
-      font-size: 40px;
-      font-weight: bold;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    
-    .close-modal:hover,
-    .close-modal:focus {
-      color: #bbb;
-      text-decoration: none;
-    }
-    
-    @media (max-width: 768px) {
-      .modal-content {
-        width: 95%;
-      }
-      
-      .close-modal {
-        top: 10px;
-        right: 15px;
-        font-size: 30px;
-      }
-    }
-  `;
-  
-  document.head.appendChild(style);
-  document.body.appendChild(modal);
-  
-  return modal;
+// Prevent browser scroll restoration
+if (history.scrollRestoration) {
+  history.scrollRestoration = 'manual';
 }
 
-// Initialize modal
-const modal = createCertificateModal();
-const modalImg = modal.querySelector('.modal-image');
-const closeModal = modal.querySelector('.close-modal');
+// Force scroll ke atas saat script dijalankan
+window.scrollTo(0, 0);
+document.documentElement.scrollTop = 0;
 
-// Open modal when clicking on view certificate link
-viewCertificateLinks.forEach(link => {
-  link.addEventListener('click', function(e) {
-    e.preventDefault();
-    const imgSrc = this.closest('.certificate-card').querySelector('.certificate-image img').src;
-    modal.style.display = 'block';
-    modalImg.src = imgSrc;
-    document.body.style.overflow = 'hidden';
-  });
-});
-
-// Close modal when clicking on X
-closeModal.addEventListener('click', function() {
-  modal.style.display = 'none';
-  document.body.style.overflow = 'auto';
-});
-
-// Close modal when clicking outside of the image
-window.addEventListener('click', function(event) {
-  if (event.target === modal) {
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-  }
-});
-
-// Add certificates to navigation menu
-const navMenu = document.getElementById('navMenu');
-const certificatesLink = document.createElement('li');
-certificatesLink.innerHTML = '<a href="#certificates">Sertifikat</a>';
-navMenu.insertBefore(certificatesLink, navMenu.children[3]);
-
-// Update active navigation on scroll for certificates section
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.offsetHeight;
-    if (window.scrollY >= sectionTop - 200) {
-      current = section.getAttribute('id');
-    }
-  });
-
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href').includes(current)) {
-      link.classList.add('active');
-    }
-  });
-});
-
-// Splash screen logic
 window.addEventListener("load", () => {
-    const splash = document.getElementById("splash-screen");
-    const main = document.getElementById("main-content");
-
+  const splash = document.getElementById("splash-screen");
+  
+  // Pastikan scroll di atas saat load
+  window.scrollTo(0, 0);
+  
+  setTimeout(() => {
+    // Tambah class fade-out untuk animasi
+    splash.classList.add('fade-out');
+    
+    // Tunggu animasi selesai baru display none
     setTimeout(() => {
-        splash.style.display = "none";
-        main.style.display = "block";
-    }, 3000); // waktu dalam milidetik (3 detik)
+      splash.style.display = "none";
+    }, 500); // Sesuai dengan durasi transition di CSS
+    
+    // Remove loading class dari body (enable scroll)
+    document.body.classList.remove('loading');
+    
+    // Force scroll ke atas setelah splash hilang
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+      
+      // Double check scroll position
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
+    
+    // Update active navbar ke Home
+    const navLinks = document.querySelectorAll('.navbar ul li a');
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#home') {
+        link.classList.add('active');
+      }
+    });
+  }, 3000); // 3 detik splash screen
+});
+
+// Backup: Force scroll saat tab menjadi active kembali
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    const splash = document.getElementById("splash-screen");
+    if (splash && splash.style.display === "none") {
+      window.scrollTo(0, 0);
+    }
+  }
 });

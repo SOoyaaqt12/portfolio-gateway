@@ -6,7 +6,7 @@ const certificatesData = [
     title: "Developing Landing Pages with HTML and CSS",
     issuer: "PT Wan International",
     date: "Desember 2023",
-    grade: "99",  // 👈 TAMBAHKAN INI
+    grade: "99",
     images: {
       front: "assets/3.1.jpg",
       back: "assets/3.2.jpg"
@@ -18,7 +18,7 @@ const certificatesData = [
     title: "Developing a Laravel library management website with the Laravel framework.",
     issuer: "PT Kreasi Media",
     date: "Desember 2024",
-    grade: "85",  // 👈 TAMBAHKAN INI
+    grade: "85",
     images: {
       front: "assets/2.1.jpg",
       back: "assets/2.2.jpg"
@@ -30,7 +30,7 @@ const certificatesData = [
     title: "Developing full-stack mobile applications using the React Native and Laravel frameworks.",
     issuer: "PT Ginvo Indonesia Group",
     date: "Juni 2025",
-    grade: "83",  // 👈 TAMBAHKAN INI
+    grade: "83",
     images: {
       front: "assets/1.jpg",
       back: "assets/2.jpg"
@@ -42,7 +42,7 @@ const certificatesData = [
     title: "TOEIC LISTENING AND READING OFFICIAL SCORE CERTIFICATE.",
     issuer: "Educational Testing Service",
     date: "Agustus 2025",
-    grade: "440",  // 👈 TAMBAHKAN INI
+    grade: "440",
     images: {
       front: "assets/ETS.pdf.jpg",
       back: null
@@ -221,8 +221,14 @@ function setupModalCloseHandlers(modal) {
   const backdrop = modal.querySelector('.modal-backdrop');
   
   const closeModal = () => {
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
+    // Tambahkan class closing untuk animasi
+    modal.classList.add('closing');
+    
+    // Tunggu animasi selesai baru remove class active
+    setTimeout(() => {
+      modal.classList.remove('active', 'closing');
+      document.body.style.overflow = 'auto';
+    }, 300);
   };
   
   closeBtn.onclick = closeModal;
@@ -235,12 +241,46 @@ function setupModalCloseHandlers(modal) {
     }
   };
   
-  // Remove old listener if exists
   document.removeEventListener('keydown', handleEscape);
   document.addEventListener('keydown', handleEscape);
+}
+
+// ===== BACKGROUND BLUR EFFECT =====
+function initCertificatesBackgroundBlur() {
+  const certBlurDivs = document.querySelectorAll('.certificates .background-blur-cert');
+  const certificateCards = document.querySelectorAll('.certificate-card');
+
+  if (certBlurDivs.length >= 2 && certificateCards.length > 0) {
+    let activeCertBlur = certBlurDivs[0];
+    let inactiveCertBlur = certBlurDivs[1];
+
+    certificateCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const imgSrc = card.querySelector('.certificate-image img').getAttribute('src');
+        inactiveCertBlur.style.backgroundImage = `url(${imgSrc})`;
+        inactiveCertBlur.classList.add('active');
+        activeCertBlur.classList.remove('active');
+        [activeCertBlur, inactiveCertBlur] = [inactiveCertBlur, activeCertBlur];
+      });
+
+      card.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+          const hoveredCard = document.querySelector('.certificate-card:hover');
+          if (!hoveredCard) {
+            certBlurDivs.forEach(blur => blur.classList.remove('active'));
+          }
+        }, 100);
+      });
+    });
+  }
 }
 
 // ===== INITIALIZE =====
 document.addEventListener('DOMContentLoaded', () => {
   renderCertificates();
+  
+  // Init background blur setelah cards di-render
+  setTimeout(() => {
+    initCertificatesBackgroundBlur();
+  }, 100);
 });

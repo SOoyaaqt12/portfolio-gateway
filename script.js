@@ -147,34 +147,6 @@ navLinks.forEach(link => {
   });
 });
 
-// Portfolio Background Blur Effect
-const blurDivs = document.querySelectorAll('.background-blur');
-const portfolioCards = document.querySelectorAll('.portfolio-card');
-
-if (blurDivs.length >= 2 && portfolioCards.length > 0) {
-  let activeBlur = blurDivs[0];
-  let inactiveBlur = blurDivs[1];
-
-  portfolioCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      const imgSrc = card.querySelector('.portfolio-image img').getAttribute('src');
-      inactiveBlur.style.backgroundImage = `url(${imgSrc})`;
-      inactiveBlur.classList.add('active');
-      activeBlur.classList.remove('active');
-      [activeBlur, inactiveBlur] = [inactiveBlur, activeBlur];
-    });
-
-    card.addEventListener('mouseleave', () => {
-      setTimeout(() => {
-        const hoveredCard = document.querySelector('.portfolio-card:hover');
-        if (!hoveredCard) {
-          blurDivs.forEach(blur => blur.classList.remove('active'));
-        }
-      }, 100);
-    });
-  });
-}
-
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {

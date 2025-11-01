@@ -231,6 +231,8 @@ if (contactForm) {
 
 // ===== SPLASH SCREEN LOGIC - VERSI DENGAN FADE OUT ANIMATION =====
 
+// ===== SPLASH SCREEN LOGIC - VERSI DENGAN FADE OUT ANIMATION =====
+
 // Prevent browser scroll restoration
 if (history.scrollRestoration) {
   history.scrollRestoration = 'manual';
@@ -239,6 +241,9 @@ if (history.scrollRestoration) {
 // Force scroll ke atas saat script dijalankan
 window.scrollTo(0, 0);
 document.documentElement.scrollTop = 0;
+
+// Flag untuk track apakah splash screen sudah selesai
+let splashScreenCompleted = false;
 
 window.addEventListener("load", () => {
   const splash = document.getElementById("splash-screen");
@@ -253,6 +258,7 @@ window.addEventListener("load", () => {
     // Tunggu animasi selesai baru display none
     setTimeout(() => {
       splash.style.display = "none";
+      splashScreenCompleted = true; // Set flag ke true setelah splash selesai
     }, 500); // Sesuai dengan durasi transition di CSS
     
     // Remove loading class dari body (enable scroll)
@@ -282,11 +288,12 @@ window.addEventListener("load", () => {
   }, 3000); // 3 detik splash screen
 });
 
-// Backup: Force scroll saat tab menjadi active kembali
+// PERBAIKAN: Hanya force scroll jika splash screen belum selesai
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) {
+  if (!document.hidden && !splashScreenCompleted) {
+    // Hanya scroll ke atas jika splash screen masih aktif/belum selesai
     const splash = document.getElementById("splash-screen");
-    if (splash && splash.style.display === "none") {
+    if (splash && splash.style.display !== "none") {
       window.scrollTo(0, 0);
     }
   }

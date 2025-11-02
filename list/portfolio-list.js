@@ -32,7 +32,7 @@ const portfolioData = [
     id: 5,
     title: "Client Portfolio Website",
     description: "Website portfolio untuk klien dengan desain custom",
-    image: "assets/Screenshot_14-10-2025_9549_portfolio-fadil.vercel.app.jpeg",
+    image: "assets/portfolio/Screenshot_14-10-2025_9549_portfolio-fadil.vercel.app.jpeg",
     link: "https://portfolio-fadil.vercel.app"
   },
   {

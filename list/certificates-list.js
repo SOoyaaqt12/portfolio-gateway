@@ -7,8 +7,8 @@ const certificatesData = [
     date: "Desember 2023",
     grade: "99",
     images: {
-      front: "assets/Scan_20251101.png",
-      back: "assets/Scan_202511012.png"
+      front: "assets/certificates/Scan_20251101.png",
+      back: "assets/certificates/Scan_202511012.png"
     },
     description: "Pengembangan website e-commerce rumah makan menggunakan HMTL dan CSS."
   },
@@ -19,8 +19,8 @@ const certificatesData = [
     date: "Desember 2024",
     grade: "85",
     images: {
-      front: "assets/Scan_202511013.png",
-      back: "assets/Scan_202511014.png"
+      front: "assets/certificates/Scan_202511013.png",
+      back: "assets/certificates/Scan_202511014.png"
     },
     description: "Pengembangan manejemen perpustakaan sekolah berbasis website menggunakan PHP Laravel."
   },
@@ -31,8 +31,8 @@ const certificatesData = [
     date: "Juni 2025",
     grade: "83",
     images: {
-      front: "assets/Scan_202511015.png",
-      back: "assets/Scan_202511016.png"
+      front: "assets/certificates/Scan_202511015.png",
+      back: "assets/certificates/Scan_202511016.png"
     },
     description: "Pengembangan aplikasi Habit Tracker dengan menggunakan React Native dan juga Android Studio."
   },
@@ -43,7 +43,7 @@ const certificatesData = [
     date: "Agustus 2025",
     grade: "440",
     images: {
-      front: "assets/Scan_202511017.png",
+      front: "assets/certificates/Scan_202511017.png",
       back: null
     },
     description: "Sertifikat ini didapatkan setelah menjalani tes Toeic mendengar dan membaca, sertifikat ini digunakan untuk pembuktian kemampuan kita dalam pemahaman bahasa inggris"

@@ -14,6 +14,18 @@ const certificatesData = [
   },
   {
     id: 2,
+    title: "TOEIC LISTENING AND READING OFFICIAL SCORE CERTIFICATE.",
+    issuer: "Educational Testing Service",
+    date: "Agustus 2024",
+    grade: "385",
+    images: {
+      front: "assets/certificates/Scan_20251108.png",
+      back: null
+    },
+    description: "Sertifikat ini didapatkan setelah menjalani tes Toeic mendengar dan membaca, sertifikat ini digunakan untuk pembuktian kemampuan kita dalam pemahaman bahasa inggris"
+  },
+  {
+    id: 3,
     title: "Developing a Laravel library management website with the Laravel framework.",
     issuer: "PT Kreasi Media",
     date: "Desember 2024",
@@ -25,7 +37,7 @@ const certificatesData = [
     description: "Pengembangan manejemen perpustakaan sekolah berbasis website menggunakan PHP Laravel."
   },
   {
-    id: 3,
+    id: 4,
     title: "Developing full-stack mobile applications using the React Native and Laravel frameworks.",
     issuer: "PT Ginvo Indonesia Group",
     date: "Juni 2025",
@@ -37,7 +49,7 @@ const certificatesData = [
     description: "Pengembangan aplikasi Habit Tracker dengan menggunakan React Native dan juga Android Studio."
   },
   {
-    id: 4,
+    id: 5,
     title: "TOEIC LISTENING AND READING OFFICIAL SCORE CERTIFICATE.",
     issuer: "Educational Testing Service",
     date: "Agustus 2025",

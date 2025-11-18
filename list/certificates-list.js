@@ -60,4 +60,16 @@ const certificatesData = [
     },
     description: "Sertifikat ini didapatkan setelah menjalani tes Toeic mendengar dan membaca, sertifikat ini digunakan untuk pembuktian kemampuan kita dalam pemahaman bahasa inggris"
   },
+  {
+    id: 6,
+    title: "Sertifikat BNSP Junior Web Developer 2025",
+    issuer: "Lembaga Sertifikasi Profesi (LSP) Digital Talent",
+    date: "November 2025",
+    grade: "Kompeten",
+    images: {
+      front: "assets/certificates/bnsp.png",
+      back: null,
+    },
+    description: "Sertifikat ini didapatkan setelah mengikuti uji kompetensi yang diselenggarakan oleh LSP Digital Talent, sertifikat ini membuktikan bahwa saya memiliki kompetensi di bidang teknologi informasi sesuai dengan standar yang ditetapkan oleh BNSP."
+  },
 ];

@@ -55,5 +55,19 @@ const portfolioData = [
     description: "Sistem manajemen perpustakaan menggunakan Laravel",
     image: "assets/portfolio/Screenshot_14-10-2025_103822_127.0.0.1.jpeg",
     link: "https://github.com/SOoyaaqt12/libary-management-laravel-rafif"
+  },
+  {
+    id: 9,
+    title: "Larosa Corporate Website",
+    description: "Website corporate untuk Larosa dengan desain modern dan profesional",
+    image: "assets/portfolio/larosapot-corporate.png",
+    link: "https://larosapot.com/corporate/"
+  },
+  {
+    id: 10,
+    title: "Larosa POS and cashier system",
+    description: "POS and cashier system untuk Larosa dengan desain modern dan profesional",
+    image: "assets/portfolio/larosa-web-app.png",
+    link: "https://larosa-web-app.vercel.app/"
   }
 ];

@@ -67,8 +67,8 @@ const certificatesData = [
     date: "November 2025",
     grade: "Kompeten",
     images: {
-      front: "assets/certificates/bnsp.png",
-      back: null,
+      front: "assets/certificates/bnsp-depan.jpg",
+      back: "assets/certificates/bnsp-belakang.jpg",
     },
     description: "Sertifikat ini didapatkan setelah mengikuti uji kompetensi yang diselenggarakan oleh LSP Digital Talent, sertifikat ini membuktikan bahwa saya memiliki kompetensi di bidang teknologi informasi sesuai dengan standar yang ditetapkan oleh BNSP."
   },

@@ -72,4 +72,16 @@ const certificatesData = [
     },
     description: "Sertifikat ini didapatkan setelah mengikuti uji kompetensi yang diselenggarakan oleh LSP Digital Talent, sertifikat ini membuktikan bahwa saya memiliki kompetensi di bidang teknologi informasi sesuai dengan standar yang ditetapkan oleh BNSP."
   },
+  {
+    id: 7,
+    title: "Web Development Assessment",
+    issuer: "Infotact Solutions",
+    date: "April 2026",
+    grade: "50",
+    images: {
+      front: "assets/certificates/infotact-certificate.jpg",
+      back: null,
+    },
+    description: "Sertifikat ini didapatkan setelah mengikuti tes web development yang diselenggarakan oleh Infotact Solutions, sertifikat ini membuktikan bahwa saya memiliki pengetahuan dasar dalam pengembangan web."
+  }
 ];

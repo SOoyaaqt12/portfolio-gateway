@@ -1,3 +1,5 @@
+const { title } = require("framer-motion/client");
+
 // Data portfolio dalam array - mudah untuk ditambah/edit
 const portfolioData = [
   {
